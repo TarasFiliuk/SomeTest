@@ -8,6 +8,7 @@ import com.kindgeek.test.service.PersonService;
 import com.kindgeek.test.service.ProjectService;
 import com.kindgeek.test.service.request.CompanyRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -46,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
         company.setDepartment(Collections.singletonList(department));
         company.setPosition(Collections.singletonList(position));
         company.setProject(projects);
-
+        log.info("Company successfully created.");
         return companyRepository.save(company);
     }
 
@@ -62,10 +64,12 @@ public class CompanyServiceImpl implements CompanyService {
             int projectId = companyRequest.getProjectId();
             Project project = projectService.getProject(projectId);
             if (p.getId() == projectId) {
-                Person personById = personService.getPersonById(companyRequest.getPersonId());
+                int personId = companyRequest.getPersonId();
+                Person personById = personService.getPersonById(personId);
                 List<Person> people = new ArrayList<>();
                 people.add(personById);
                 project.setPerson(people);
+                log.info("Person with ID {} added to company", personId);
             }
             return p;
         }).collect(Collectors.toList());

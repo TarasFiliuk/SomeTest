@@ -1,7 +1,7 @@
 package com.kindgeek.test.service.impl;
 
 import com.kindgeek.test.exeption.TestNotFoundExeption;
-import com.kindgeek.test.service.request.PersonRequest;
+import com.kindgeek.test.service.request.PersonPositionDepartmentRequest;
 import com.kindgeek.test.entity.Person;
 import com.kindgeek.test.entity.Position;
 import com.kindgeek.test.repository.PersonRepository;
@@ -27,6 +27,7 @@ public class PersonServiceImpl implements PersonService {
     public Person createPerson() {
         Person person = new Person();
         person.setPosition(Collections.singletonList(new Position("Junior Java Developer")));
+        log.info("Person successfully created.");
         return personRepository.save(person);
     }
 
@@ -39,10 +40,11 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void deletePerson(int personId) {
         personRepository.deleteById(personId);
+        log.info("Person with ID {} deleted",personId);
     }
 
     @Override
-    public Person updatePerson(int personId, PersonRequest personRequest) {
+    public Person updatePerson(int personId, PersonPositionDepartmentRequest personRequest) {
         Person person = this.getPersonById(personId);
         List<Position> positions = person.getPosition().stream().map(position -> {
             if (position.getId() == personRequest.getPositionId()) {
@@ -51,6 +53,7 @@ public class PersonServiceImpl implements PersonService {
             return position;
         }).collect(Collectors.toList());
         person.setPosition(positions);
+        log.info("Person {} updated",personId);
         return personRepository.save(person);
     }
 

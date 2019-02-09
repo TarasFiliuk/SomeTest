@@ -1,7 +1,7 @@
 package com.kindgeek.test.controller;
 
 import com.kindgeek.test.error.Error;
-import com.kindgeek.test.service.request.PersonRequest;
+import com.kindgeek.test.service.request.PersonPositionDepartmentRequest;
 import com.kindgeek.test.entity.Person;
 import com.kindgeek.test.service.PersonService;
 import io.swagger.annotations.ApiOperation;
@@ -61,8 +61,8 @@ public class PersonController {
 
     @PutMapping("/update/{personId}")
     public ResponseEntity updatePerson(@PathVariable int personId,
-                                       @RequestBody PersonRequest personRequest) {
-        Person person = personService.updatePerson(personId, personRequest);
+                                       @RequestBody PersonPositionDepartmentRequest personPositionDepartmentRequest) {
+        Person person = personService.updatePerson(personId, personPositionDepartmentRequest);
         if (nonNull(person)) {
             return ok().body(person);
         } else

@@ -2,8 +2,8 @@ package com.kindgeek.test.controller;
 
 import com.kindgeek.test.entity.Department;
 import com.kindgeek.test.error.Error;
-import com.kindgeek.test.service.DepartamentService;
-import com.kindgeek.test.service.request.DepartmentRequest;
+import com.kindgeek.test.service.DepartmentService;
+import com.kindgeek.test.service.request.PersonPositionDepartmentRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -25,7 +25,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/department")
 public class DepartmentController {
-    private final DepartamentService departamentService;
+    private final DepartmentService departmentService;
 
     @ApiOperation("create department")
     @ApiResponses(value = {
@@ -34,7 +34,7 @@ public class DepartmentController {
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = INTERNAL_SERVER_ERROR_MESSAGE)})
     @PostMapping("/create")
     public ResponseEntity createDepartment() {
-        Department department = departamentService.createDepartment();
+        Department department = departmentService.createDepartment();
         return ok().body(department);
     }
 
@@ -45,7 +45,7 @@ public class DepartmentController {
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = INTERNAL_SERVER_ERROR_MESSAGE)})
     @GetMapping("/getDepartment/{departmentId}")
     public ResponseEntity getDepartment(@PathVariable int departmentId) {
-        Department department = departamentService.getDepartment(departmentId);
+        Department department = departmentService.getDepartment(departmentId);
         if (nonNull(department)) {
             return ok().body(department);
         } else
@@ -59,7 +59,7 @@ public class DepartmentController {
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = INTERNAL_SERVER_ERROR_MESSAGE)})
     @DeleteMapping("/delete/{departmentId}")
     public ResponseEntity deletePerson(@PathVariable int departmentId) {
-        departamentService.deleteDepartment(departmentId);
+        departmentService.deleteDepartment(departmentId);
         return ok().build();
     }
 
@@ -70,8 +70,8 @@ public class DepartmentController {
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = INTERNAL_SERVER_ERROR_MESSAGE)})
     @PutMapping("/update/{departmentId}")
     public ResponseEntity updatePerson(@PathVariable int departmentId,
-                                       @RequestBody DepartmentRequest departmentRequest) {
-        Department department = departamentService.updateDepartment(departmentId, departmentRequest);
+                                       @RequestBody PersonPositionDepartmentRequest departmentRequest) {
+        Department department = departmentService.updateDepartment(departmentId, departmentRequest);
         if (nonNull(department)){
             return ok().body(department);
         }else return  badRequest().body(newErrorsList(new Error("Person",format("Person with ID %s not found", departmentId))));

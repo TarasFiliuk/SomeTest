@@ -3,7 +3,7 @@ package com.kindgeek.test.controller;
 import com.kindgeek.test.entity.Position;
 import com.kindgeek.test.error.Error;
 import com.kindgeek.test.service.PositionService;
-import com.kindgeek.test.service.request.PositionRequest;
+import com.kindgeek.test.service.request.PersonPositionDepartmentRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -71,7 +71,7 @@ public class PositionController {
             @ApiResponse(code = SC_UNAUTHORIZED, message = OPERATION_NOT_ALLOWED_MESSAGE, response = Errors.class),
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = INTERNAL_SERVER_ERROR_MESSAGE)})
     @PutMapping("/update")
-    public ResponseEntity updatePerson(@RequestBody PositionRequest positionRequest) {
+    public ResponseEntity updatePerson(@RequestBody PersonPositionDepartmentRequest positionRequest) {
         int positionId = positionRequest.getPositionId();
         Position position = positionService.updatePosition(positionId, positionRequest);
         if (nonNull(position)) {
